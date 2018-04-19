@@ -46,7 +46,7 @@ $ docker build . -t homer/server:0.1
 $ docker run -d -p 5000:5000 --name homerserver homer/server:0.1
 ```
 
-* L'IHM est alors disponibles sur http://\<ip_locale\>:5000/<br> (:warning: ne pas prendre 127.0.0.1)
+* L'IHM est alors disponible sur http://\<ip_locale\>:5000/<br> (:warning: ne pas prendre 127.0.0.1)
 
 * Ajout de la clé ssh du HomerAgent :
 ```bash
