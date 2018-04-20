@@ -7,3 +7,5 @@ COPY ansible/. /opt/ansible/
 COPY homer/. /opt/homer/
 RUN pip install -r /opt/homer/requirements.txt
 RUN /usr/bin/ssh-keygen -q -t rsa -N '' -f /root/.ssh/id_rsa
+
+CMD [ "/usr/bin/python2.7", "/opt/homer/run.py" ]
