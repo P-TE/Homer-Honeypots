@@ -1,5 +1,7 @@
 #   Homer 
-<div style="text-align:center"><img src="docs/images/logo.png" width="250"></div>
+<p align="center">
+<img src="docs/images/logo.png" width="250">
+</p>
 
 
 Homer est un projet permettant le déploiement automatisé d'Honeypots, à travers une interface graphique.
