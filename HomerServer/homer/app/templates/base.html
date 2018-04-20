@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/logo.png">
+    <title>Honeypot Interface</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap3.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/static/css/vendor/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="/static/css/vendor/default.css" id="theme" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+
+
+
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- fou la -->
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+
+    {% block stylesheets %}
+    {% endblock %}
+    {% block canvas %}
+    {% endblock %}
+
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <div class="top-left-part">
+                  <a class="logo" href="/">
+                    <b>
+                      <img src="/static/img/logo.png" alt="home" class="light-logo" height="50" width="50" />
+                    </b>
+                    <span class="hidden-xs">
+                      <h3 class="light-logo">HOMER</h3>
+                    </span> 
+                  </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li class="devider"></li> 
+                    <li><a href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Accueil</a> </li>
+                    <li><a href="/install"><i class="fa fa-desktop fa-fw" aria-hidden="true"></i>Déploiement</a></li>
+                    <li><a href="/options"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>Options</a></li>
+                    <li class="devider"></li>   
+                    <li><a href="/logout"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+        {% block content %}
+        {% endblock %}
+            <script src="/static/js/jquery-3.2.1.min.js"></script>
+            <!-- Bootstrap Core JavaScript -->
+            <script src="/static/js/vendor/tether.min.js"></script>
+            <script src="/static/js/bootstrap4.min.js"></script>
+            <!-- Menu Plugin JavaScript -->
+            <script src="/static/js/vendor/sidebar-nav.min.js"></script>
+
+            <!-- Custom Theme JavaScript -->
+            <script src="/static/js/vendor/custom.min.js"></script>
+            <script src="/static/js/vendor/jquery.toast.js"></script>
+            <script src="/static/js/core.js"></script>
+
+        {% block scripts %}
+        {% endblock %}
+</body>
+
+</html>

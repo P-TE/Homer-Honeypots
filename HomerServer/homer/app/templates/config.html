@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Configuration</h4> 
+            </div>
+        </div>
+
+
+        <!-- Active Directory -->
+        {% if syslog_ip.value and syslog_port.value %}
+        
+        <div class="col-sm-12 cache" id="Active Directory">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Syslog</h3>
+                <p class="text-muted m-b-30 font-13"> Informations </p>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form action="/options" method="post">
+                            <div class="form-group">
+                                <li class="list-group-item">
+                                    Activer l'envoi des log honeypot vers un serveur syslog {{ msg }}
+                                    <div class="material-switch pull-right">
+                                        <input id="someSwitchOptionSuccess" name="status" type="checkbox" checked="checked"/>
+                                        <label for="someSwitchOptionSuccess" class="label-success"></label>
+                                    </div>
+                                </li>
+                            </div>
+                            <div class="form-group">
+                                <label for="syslog_ip">IP</label>
+                                <input class="form-control" name="syslog_ip" placeholder="IP du serveur syslog" type="text" required="required" {% if syslog_ip %} value="{{ syslog_ip.value }}" {% endif %} > </div>
+                                <div class="form-group">
+                                <label for="syslog_port">Port</label>
+                                <input class="form-control" name="syslog_port" placeholder="Port (514)" type="text" required="required" {% if syslog_port %} value="{{ syslog_port.value }}"{% endif %} > </div>
+                            <button type="submit" name="submit" value="syslog" class="btn btn-inverse waves-effect waves-light">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-sm-12 cache" id="Active Directory">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Syslog</h3>
+                <p class="text-muted m-b-30 font-13"> Informations </p>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form action="/options" method="post">
+                            <div class="form-group">
+                                <li class="list-group-item">
+                                    Activer l'envoi des log honeypot vers un serveur syslog 
+                                    <div class="material-switch pull-right">
+                                        <input id="someSwitchOptionSuccess" name="status" type="checkbox"/>
+                                        <label for="someSwitchOptionSuccess" class="label-success"></label>
+                                    </div>
+                                </li>
+                            </div>
+                            <div class="form-group">
+                                <label for="syslog_ip">IP</label>
+                                <input class="form-control" name="syslog_ip" placeholder="IP du serveur syslog" type="text"> </div>
+                                <div class="form-group">
+                                <label for="login">Port</label>
+                                <input class="form-control" name="syslog_port" placeholder="Port (514)" type="text"> </div>
+                            <button type="submit" name="syslog" value="syslog" class="btn btn-inverse waves-effect waves-light">Terminer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    
+
+    </div>
+            <!-- /.container-fluid -->
+    <footer class="footer text-center"> 2017 &copy; Homer Honeypot </footer>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
+
+
+
+
+
+

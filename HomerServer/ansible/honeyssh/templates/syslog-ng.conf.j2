@@ -1,0 +1,51 @@
+@version: 3.5
+@include "scl.conf"
+@include "`scl-root`/system/tty10.conf"
+
+# Syslog-ng configuration file, compatible with default Debian syslogd
+# installation.
+
+# First, set some global options.
+options { chain_hostnames(off); flush_lines(0); use_dns(no); use_fqdn(no);
+	  owner("root"); group("adm"); perm(0640); stats_freq(0); mark_freq(0);
+	  bad_hostname("^gconfd$");
+};
+
+
+########################
+# Sources
+########################
+# This is the default behavior of sysklogd package
+# Logs may come from unix stream, but not from another machine.
+#
+source s_src {
+	file("/var/log/homer/honeyssh.log");
+};
+
+
+########################
+# Destinations
+########################
+# First some standard logfile
+#
+
+destination honey_syslogserver { udp("{{ syslog_server }}" port({{ port_syslog }})); };
+
+########################
+# Filters
+########################
+# Here's come the filter options. With this rules, we can set which 
+# message go where.
+
+########################
+# Log paths
+########################
+log { source(s_src);
+      destination(honey_syslogserver);
+};
+
+
+###
+# Include all config files in /etc/syslog-ng/conf.d/
+###
+@include "/etc/syslog-ng/conf.d/*.conf"

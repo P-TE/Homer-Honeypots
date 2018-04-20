@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Installation</h4> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <h3 class="box-title m-b-0">Installation Homer Honeypot</h3>
+                    <p class="text-muted m-b-30 font-13">  </p>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-12">Choix du Honeypot</label>
+                              <input type="hidden" name="host" value="{{ host }}">
+                            <div class="col-sm-12">
+                                <select class="form-control" onchange="valueChanged(this)">
+                                    <option>--Choix--</option>
+                                    <option>Active Directory</option>
+                                    <option>Serveur SSH</option>
+                                    <option>Serveur FTP</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Directory -->
+        <div class="col-sm-12 cache" id="Active Directory" style="display:none;">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Active Directory</h3>
+                <p class="text-muted m-b-30 font-13"> Configuration du Honeypot Active Directory </p>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form action="/install" method="post">
+                            <div class="form-group">
+                                <label for="userAD">User</label>
+                                <input class="form-control" name="userAD" placeholder="Username" type="text"> </div>
+                            <div class="form-group">
+                                <label for="passAD">Password</label>
+                                <input class="form-control" name="passAD" placeholder="Password" type="password"> </div>
+                            <div class="form-group">
+                                <label for="domAD">Domain</label>
+                                <input class="form-control" name="domAD" placeholder="Domain" type="text"> </div>
+                            <input  name="Active_Directory" type="hidden" value="1">
+                            <button type="submit" name="submit" value="ad" class="btn btn-inverse waves-effect waves-light">Terminer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Serveur SSH -->
+        <div class="col-sm-12 cache" id="Serveur SSH" style="display:none;">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Serveur SSH</h3>
+                <p class="text-muted m-b-30 font-13"> Configuration du Honeypot SSH </p>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form action="/install" method="post">
+                            <div class="form-group">
+                                <label for="userAD">Hostname</label>
+                                <input class="form-control" name="hostnameSSH" placeholder="srv04" type="text"> </div>
+                            <div class="form-group">
+                                <label for="passAD">Port</label>
+                                <input class="form-control" name="portSSH" placeholder="Port" type="text"> </div>
+                            <div class="form-group">
+                                <label for="domAD">Banner</label>
+                                <select class="form-control" name="bannerSSH">
+                                  <option>SSH-2.0-OpenSSH_5.1p1 Debian-5</option>
+                                  <option>SSH-1.99-OpenSSH_4.3</option>
+                                  <option>SSH-1.99-OpenSSH_4.7</option>
+                                  <option>SSH-1.99-Sun_SSH_1.1</option>
+                                  <option>SSH-2.0-OpenSSH_4.2p1 Debian-7ubuntu3.1</option>
+                                  <option>SSH-2.0-OpenSSH_4.3</option>
+                                  <option>SSH-2.0-OpenSSH_4.6</option>
+                                  <option>SSH-2.0-OpenSSH_5.1p1 Debian-5</option>
+                                  <option>SSH-2.0-OpenSSH_5.1p1 FreeBSD-20080901</option>
+                                  <option>SSH-2.0-OpenSSH_5.3p1 Debian-3ubuntu5</option>
+                                  <option>SSH-2.0-OpenSSH_5.3p1 Debian-3ubuntu6</option>
+                                  <option>SSH-2.0-OpenSSH_5.3p1 Debian-3ubuntu7</option>
+                                  <option>SSH-2.0-OpenSSH_5.5p1 Debian-6</option>
+                                  <option>SSH-2.0-OpenSSH_5.5p1 Debian-6+squeeze1</option>
+                                  <option>SSH-2.0-OpenSSH_5.5p1 Debian-6+squeeze2</option>
+                                  <option>SSH-2.0-OpenSSH_5.8p2_hpn13v11 FreeBSD-20110503</option>
+                                  <option>SSH-2.0-OpenSSH_5.9p1 Debian-5ubuntu1</option>
+                                  <option>SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2</option>
+                                  <option>SSH-2.0-OpenSSH_5.9</option>
+                                </select>
+                            </div>                            <div class="input-group m-t-10" style="padding-bottom: 2%;">
+                                <input name="ipSSH" class="form-control" placeholder="IP:port pour le déploiement" type="text"> 
+                                <span class="input-group-btn">
+                                <button type="button" id="ipSSH" class="btn waves-effect waves-light btn-info" onclick="doSomething(this)">Check</button>
+                                </span>
+                            </div>
+                            <input  name="Serveur_SSH" type="hidden" value="1">
+                            <button type="submit" name="submit" id="endipSSH" value="ssh" class="btn btn-inverse waves-effect waves-light" disabled="disabled">Terminer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Serveur FTP -->
+        <div class="col-sm-12 cache" id="Serveur FTP" style="display:none;">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Serveur FTP</h3>
+                <p class="text-muted m-b-30 font-13"> Configuration du Honeypot FTP </p>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form action="/install" method="post">
+                            <div class="form-group">
+                                <label for="userAD">Username</label>
+                                <input class="form-control" name="userFTP" placeholder="Username" type="text"> </div>
+                            <div class="form-group">
+                                <label for="passAD">Password</label>
+                                <input class="form-control" name="passFTP" placeholder="Password" type="password"> </div>
+                            <div class="input-group m-t-10" style="padding-bottom: 2%;">
+                                <input name="ipFTP" class="form-control" placeholder="IP:port pour le déploiement" type="text"> 
+                                <span class="input-group-btn">
+                                <button type="button" id="ipFTP" class="btn waves-effect waves-light btn-info" onclick="doSomething(this)">Check</button>
+                                </span>
+                            </div>
+                            <input  name="Serveur_FTP" type="hidden" value="1">
+                            <button type="submit" name="submit" id="endipFTP" value="ftp" class="btn btn-inverse waves-effect waves-light" disabled="disabled">Terminer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+            <!-- /.container-fluid -->
+    <footer class="footer text-center"> 2017 &copy; Homer Honeypot </footer>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
+
+
+
+
+
+

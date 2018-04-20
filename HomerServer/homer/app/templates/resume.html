@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style type="text/css">
+.console {
+  font-family:Courier;
+ color: #CCCCCC;
+  background: #000000;
+  border: 3px double #CCCCCC;
+  padding: 10px;
+  overflow: auto;
+}
+</style>
+<script>
+var source = new EventSource("/stream");
+source.onmessage = function(event) {
+    var output = document.getElementById("output")
+    output.innerHTML += event.data + "<br/>"
+    output.scrollTop = output.scrollHeight;
+    if (event.data.indexOf('Stop Ansible SSH') !== -1){
+        console.log('close')
+        source.close()
+        var output = document.getElementById("output")
+        output.innerHTML += "<br/> DEPLOIEMENT TERMINE <br/>"
+        output.scrollTop = output.scrollHeight;
+    }
+
+}
+</script>
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+<div id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row bg-title">
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Résumé</h4> 
+      </div>
+    </div>
+<div class="row">
+
+                  {% if "Serveur_SSH" in result %}
+                    
+                  <div class="col-sm-12">
+                    <div class="white-box">
+                      <!-- <h3 class="box-title">Serveur SSH :</h3> -->
+                      <div class="row sales-report">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <h2>HoneyPot SSH</h2>
+                        </div>
+                      </div>
+                        <div class="table-responsive">
+                          <table class="table" id="mySSH">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>IP</th>
+                                    <th>Hostname</th>
+                                    <th>Port</th>
+                                    <th>Bannière</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="txt-oflo">{% set ipssh = result['ipSSH'].split(':') %}{{ ipssh[0] }}</td>
+                                    <td><span class="label label-success label-rouded">{{ result['hostnameSSH'] }}</span> </td>
+                                    <td class="txt-oflo">{{ result['portSSH'] }}</td>
+                                    <td class="txt-oflo">{{ result['bannerSSH'] }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 cache">
+                      <div class="white-box">
+                          <h3 class="box-title m-b-0">Ansible</h3>
+                          <p class="text-muted m-b-30 font-13"> Déploiement en cours </p>
+                          <div class="row">
+                              <div class="col-sm-12 col-xs-12">
+                                  <div class="console" id="output" style="height:500px">
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {% endif %}
+
+
+                  {% if "Active_Directory" in result %}
+                    
+                  <div class="col-sm-12">
+                    <div class="white-box">
+                      <!-- <h3 class="box-title">Active Directory :</h3> -->
+                      <div class="row sales-report">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <h2>HoneyPot Active Directory</h2>
+<!--                           <p>SALES REPORT</p>
+ -->                    </div>
+                      </div>
+                        <div class="table-responsive">
+                          <table class="table" id="myAD">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Domaine</th>
+                                    <th>Lien</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="txt-oflo">{{ result['userAD'] }}</td>
+                                    <td class="txt-oflo">{{ result['passAD'] }}</td>
+                                    <td class="txt-oflo">{{ result['domAD'] }}</td>
+                                    <td class="txt-oflo"><a href="{{ file }}">{{ file }}</a></td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                  </div>
+                  {% endif %}
+                  
+
+                  {% if "Serveur_FTP" in result %}
+                    
+                  <div class="col-sm-12">
+                    <div class="white-box">
+                      <!-- <h3 class="box-title">Serveur FTP :</h3> -->
+                      <div class="row sales-report">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <h2>HoneyPot FTP</h2>
+                        </div>
+                      </div>
+                        <div class="table-responsive">
+                          <table class="table" id="myFTP">
+                            <thead>
+                                <tr>
+                                    <th>IP</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="txt-oflo">{% set ipftp = result['ipFTP'].split(':') %}{{ ipftp[0] }}</td>
+                                    <td class="txt-oflo">{{ result['userFTP'] }}</td>
+                                    <td class="txt-oflo">{{ result['passFTP'] }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-12 cache">
+                      <div class="white-box">
+                          <h3 class="box-title m-b-0">Ansible</h3>
+                          <p class="text-muted m-b-30 font-13"> Déploiement en cours </p>
+                          <div class="row">
+                              <div class="col-sm-12 col-xs-12">
+                                  <div class="console" id="output" style="height:500px">
+                                    
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {% endif %}
+
+              </div>
+   <footer class="footer text-center"> 2017 &copy; Homer Honeypot </footer>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,103 @@
+- name: Create group
+  group: name={{ ftp_username }} state=present
+  become: true
+
+- name: Create user
+  user: name={{ ftp_username }} password={{ ftp_password }} group={{ ftp_username }}
+  become: true
+
+- name: Synchronize apt cache
+  apt: update_cache=yes
+  become: true
+
+- name: Install dependancies
+  become: true
+  apt: name={{ item.name }} install_recommends=no
+  with_items:
+    - { id: 1, name: "python-pip" }
+    - { id: 2, name: "python-scapy" }
+    - { id: 3, name: "clamav" }
+    - { id: 4, name: "clamav-daemon" }
+    - { id: 5, name: "python-pyclamd" }
+    - { id: 6, name: "tcpdump" }
+    - { id: 7, name: "vsftpd" }
+    - { id: 8, name: "syslog-ng" }
+    - { id: 9, name: "libcap2-bin" }
+    - { id: 10, name: "psmisc" }
+  when: (item.id == 8 and syslog_server is defined) or item.id != 8
+
+- name: Copy ftp conf
+  copy: src={{ role_path }}/files/vsftpd.conf dest=/etc/
+  become: true
+
+- name: Copy scapy script
+  copy: src={{ role_path }}/files/honeypot_ftp.py dest=/opt/scapyftp/ owner={{ ftp_username }} group={{ ftp_username }} mode=0550
+  become: true
+
+- name: Create symlink
+  file: src=/opt/scapyftp/honeypot_ftp.py dest=/usr/local/bin/scapyftp owner={{ ftp_username }} group={{ ftp_username }} state=link
+  become: true
+
+#setcapabilieties
+- name: Set capabilities python
+  command: setcap cap_net_raw=eip /usr/bin/python2.7
+  become: true
+
+- name: Set capabilities tcpdump
+  command: setcap cap_net_raw=eip /usr/sbin/tcpdump
+  become: true
+
+- name: Create /var/log/homer/ directory
+  file: path=/var/log/homer owner={{ ftp_username }} group={{ ftp_username }} state=directory
+  become: true
+
+- name: Create /var/log/homerfile/ directory
+  file: path=/var/log/homerfile owner={{ ftp_username }} group={{ ftp_username }} state=directory
+  become: true
+
+- name: Reload vsftpd service
+  service: name=vsftpd state=restarted
+  become: true
+
+- name: Copy syslog-ng.conf file
+  template: src={{ role_path }}/templates/syslog-ng.conf.j2 dest=/etc/syslog-ng/syslog-ng.conf owner=root group=root mode=0644
+  become: true
+  when: syslog_server is defined
+
+- name: Reload syslog-ng service
+  service: name=syslog-ng state=restarted
+  become: true
+  when: syslog_server is defined
+
+- name: Kill background freshclam
+  command: killall freshclam
+  become: true
+
+- name: Copy signature clamav 1/3 file FOR DEMO
+  copy: src={{ role_path }}/files/bytecode.cvd dest=/var/lib/clamav/bytecode.cvd owner=clamav group=clamav mode=0644
+  become: true
+
+- name: Copy signature clamav 2/3 file FOR DEMO
+  copy: src={{ role_path }}/files/daily.cvd dest=/var/lib/clamav/daily.cvd owner=clamav group=clamav mode=0644
+  become: true
+
+- name: Copy signature clamav 3/3 file FOR DEMO
+  copy: src={{ role_path }}/files/main.cvd dest=/var/lib/clamav/main.cvd owner=clamav group=clamav mode=0644
+  become: true
+
+- name: Execute freshclam
+  command: freshclam
+  become: true
+
+- name: Start clamav-daemon
+  service: name=clamav-daemon state=started
+  become: true
+
+- name: Start HoneyFTP
+  shell: nohup scapyftp &
+  become_user: "{{ ftp_username }}"
+  become: true
+
+- name: Stop Ansible SSH
+  service: name=ssh enabled=no state=stopped
+  become: true
