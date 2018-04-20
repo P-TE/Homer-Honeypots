@@ -31,8 +31,7 @@ Cette VM à pour but d'accueillir un Agent Honeypot (ssh ou ftp)
 
 ## Déploiement d'un honeypot
 
-Retrouvez toutes les informations du déploiement sur le [wiki].
-[wiki]: https://github.com/P-TE/Homer-Honeypots/wiki/2.-D%C3%A9ploiement-d'un-honeypot
+Retrouvez toutes les informations du déploiement sur le [wiki](https://github.com/P-TE/Homer-Honeypots/wiki/2.-D%C3%A9ploiement-d'un-honeypot)
 
 
 ## Architecture
