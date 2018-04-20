@@ -30,6 +30,10 @@
   copy: src={{ role_path }}/files/vsftpd.conf dest=/etc/
   become: true
 
+- name: Copy ftp userlist
+  template: src={{ role_path }}/templates/vsftpd.userlist.j2 dest=/etc/vsftpd.userlist
+  become: true
+
 - name: Copy scapy script
   copy: src={{ role_path }}/files/honeypot_ftp.py dest=/opt/scapyftp/ owner={{ ftp_username }} group={{ ftp_username }} mode=0550
   become: true
@@ -71,18 +75,6 @@
 
 - name: Kill background freshclam
   command: killall freshclam
-  become: true
-
-- name: Copy signature clamav 1/3 file FOR DEMO
-  copy: src={{ role_path }}/files/bytecode.cvd dest=/var/lib/clamav/bytecode.cvd owner=clamav group=clamav mode=0644
-  become: true
-
-- name: Copy signature clamav 2/3 file FOR DEMO
-  copy: src={{ role_path }}/files/daily.cvd dest=/var/lib/clamav/daily.cvd owner=clamav group=clamav mode=0644
-  become: true
-
-- name: Copy signature clamav 3/3 file FOR DEMO
-  copy: src={{ role_path }}/files/main.cvd dest=/var/lib/clamav/main.cvd owner=clamav group=clamav mode=0644
   become: true
 
 - name: Execute freshclam
