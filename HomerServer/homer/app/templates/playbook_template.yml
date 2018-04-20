@@ -1,0 +1,6 @@
+{% if ssh %}- hosts: honeyssh
+  roles:
+    - honeyssh{% endif %}
+{% if ftp %}- hosts: honeyftp
+  roles:
+    - honeyftp{% endif %}

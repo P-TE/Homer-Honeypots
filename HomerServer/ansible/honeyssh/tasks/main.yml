@@ -1,0 +1,126 @@
+- name: Create cowrie group
+  command: groupadd cowrie
+  become: true
+
+- name: Create cowrie user
+  command: adduser --quiet --gecos "" --ingroup cowrie --disabled-password cowrie
+  become: true
+
+- name: Install dependancies
+  become: true
+  apt: name={{ item.name }} update_cache=yes install_recommends=no
+  with_items:
+    - { id: 1, name: "python-pip" }
+    - { id: 2, name: "libmpfr-dev" }
+    - { id: 3, name: "libssl-dev" }
+    - { id: 4, name: "libmpc-dev" }
+    - { id: 5, name: "libffi-dev" }
+    - { id: 6, name: "build-essential" }
+    - { id: 7, name: "libpython-dev" }
+    - { id: 8, name: "python2.7-minimal" }
+    - { id: 9, name: "git" }
+    - { id: 10, name: "virtualenv" }
+    - { id: 11, name: "python-setuptools" }
+    - { id: 12, name: "authbind" }
+    - { id: 13, name: "syslog-ng" }
+  when: (item.id == 13 and syslog_server is defined) or item.id != 13
+
+- name: Build cowrie environement from github
+  command: git clone https://github.com/micheloosterhof/cowrie /home/cowrie/cowrie-git
+  become: true
+  become_user: cowrie
+
+- name: Copy cowrie conf
+  template: src={{ role_path }}/templates/cowrie.cfg.j2 dest=/home/cowrie/cowrie-git/cowrie.cfg
+  become: true
+  become_user: cowrie
+
+- name: Copy cowrie userdb
+  template: src={{ role_path }}/files/userdb.txt.j2 dest=/home/cowrie/cowrie-git/data/userdb.txt
+  become: true
+  become_user: cowrie
+
+- name: Enable authbind use
+  replace:
+    path: /home/cowrie/cowrie-git/bin/cowrie
+    regexp: 'AUTHBIND_ENABLED=no'
+    replace: 'AUTHBIND_ENABLED=yes'
+  become: true
+  become_user: cowrie
+
+- name: Create log directory
+  file:
+    path: /var/log/homer
+    state: directory
+    mode: 0775
+    group: cowrie
+  become: true
+
+- name: Copy logger
+  copy: src={{ role_path }}/files/logger.py dest=/home/cowrie/
+  become: true
+  become_user: cowrie
+
+- name: Copy syslog-ng conf
+  template: src={{ role_path }}/templates/syslog-ng.conf.j2 dest=/etc/syslog-ng/syslog-ng.conf
+  become: true
+  when: syslog_server is defined
+
+- name: Reload syslog-ng service
+  service: name=syslog-ng state=restarted
+  become: true
+  when: syslog_server is defined
+
+- name: Create virtualenv
+  command: virtualenv /home/cowrie/cowrie-git/cowrie-env creates=/home/cowrie/cowrie-git/cowrie-env/bin/activate
+  become: true
+  become_user: cowrie
+
+- name: Upgrade pip packages
+  pip: name={{ item.name }} extra_args=--upgrade virtualenv=/home/cowrie/cowrie-git/cowrie-env
+  with_items:
+    - { id: 1, name: "pip" }
+    - { id: 2, name: "cffi" }
+    - { id: 3, name: "setuptools" }
+  become: true
+  become_user: cowrie
+
+- name: Install requirements
+  pip:
+    requirements: /home/cowrie/cowrie-git/requirements.txt
+    virtualenv: /home/cowrie/cowrie-git/cowrie-env
+  become: true
+  become_user: cowrie
+
+- name: Configure authbind
+  file:
+    path: /etc/authbind/byport/{{ ssh_port }}
+    state: touch
+    mode: 0770
+    owner: cowrie
+    group: cowrie
+  become: true
+
+- name: Schedule HoneySSH start
+  at:
+    command: /home/cowrie/cowrie-git/bin/cowrie start
+    count: 1
+    units: minutes
+  become: true
+  become_user: cowrie
+  when: ansible_ssh_port == ssh_port
+
+- name: Starting HoneySSH
+  command: /home/cowrie/cowrie-git/bin/cowrie start
+  become: true
+  become_user: cowrie
+  when: ansible_ssh_port != ssh_port
+
+- name: Starting logger
+  shell: nohup python /home/cowrie/logger.py &
+  become: true
+  become_user: cowrie
+
+- name: Stop Ansible SSH
+  service: name=ssh enabled=no state=stopped
+  become: true

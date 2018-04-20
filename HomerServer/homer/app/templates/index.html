@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block canvas %}
+
+{% endblock %}
+{% block content %}
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Accueil</h4> 
+		    </div>
+                </div>
+
+		            <div class="col-md-12 col-lg-12 col-sm-12">
+                  <div class="white-box">
+                      <h3 class="box-title">Bienvenue :</h3>
+                      <div class="row sales-report">
+                        Retrouvez sur cette page la liste des Honeypots déployé. Cela vous permet de visualiser les précédentes installations. Cette liste n'est pas liée aux Honeypots et toute modification ne sera pas répercutée sur le Honeypot lui-même et vis versa.
+                      </div>
+                  </div>
+                </div>
+
+                  {% if sshs %}
+                    
+                  <div class="col-md-12 col-lg-6 col-sm-12">
+                    <div class="white-box">
+                      <h3 class="box-title">Serveur SSH :</h3>
+                      <div class="row sales-report">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <h2>Nombre de machines</h2>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                          <h1 class="text-right text-info m-t-20">{{ sshs|length }}</h1> </div>
+                        </div>
+                        <div class="table-responsive">
+                          <table class="table" id="mySSH">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>IP</th>
+                                    <th>Description</th>
+                                    <th>Création</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for ssh in sshs %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="txt-oflo">{{ ssh['ip'] }}</td>
+                                    <td class="txt-oflo">{{ ssh['desc'] }}</td>
+                                    <td class="txt-oflo">{{ ssh['creation'] }}</td>
+                                    <td>
+                                        <a href="/honey/edit/{{ ssh['id'] }}" class="text-inverse p-r-10" data-toggle="tooltip" title="" data-original-title="Edit"><i class="ti-marker-alt"></i></a>
+                                        <a href="/honey/delete/{{ ssh['id'] }}" class="text-inverse" title="" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash" onclick="return confirm('Do you really want to delete this honeypot ?');"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                                </table>
+                        </div>
+                      </div>
+                  </div>
+                {% endif %}
+                {% if ads %}
+                    
+                  <div class="col-md-12 col-lg-6 col-sm-12">
+                    <div class="white-box">
+                      <h3 class="box-title">Active Directory :</h3>
+                      <div class="row sales-report">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <h2>Nombre de machines</h2>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                          <h1 class="text-right text-info m-t-20">{{ ads|length }}</h1> </div>
+                        </div>
+                        <div class="table-responsive">
+                          <table class="table" id="myAD">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>IP</th>
+                                    <th>Description</th>
+                                    <th>Création</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for ad in ads %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="txt-oflo">{{ ad['ip'] }}</td>
+                                    <td class="txt-oflo">{{ ad['desc'] }}</td>
+                                    <td class="txt-oflo">{{ ad['creation'] }}</td>
+                                    <td>
+                                        <a href="/honey/edit/{{ ad['id'] }}" class="text-inverse p-r-10" data-toggle="tooltip" title="" data-original-title="Edit"><i class="ti-marker-alt"></i></a>
+                                        <a href="/honey/delete/{{ ad['id'] }}" class="text-inverse" title="" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash" onclick="return confirm('Do you really want to delete this honeypot ?');"></i></a>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                  </div>
+                {% endif %}
+                {% if ftps %}
+                    
+                  <div class="col-md-12 col-lg-6 col-sm-12">
+                    <div class="white-box">
+                      <h3 class="box-title">Serveur FTP :</h3>
+                      <div class="row sales-report">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <h2>Nombre de machines</h2>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 ">
+                          <h1 class="text-right text-info m-t-20">{{ ftps|length }}</h1> </div>
+                        </div>
+                        <div class="table-responsive">
+                          <table class="table" id="myFTP">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>IP</th>
+                                    <th>Description</th>
+                                    <th>Création</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for ftp in ftps %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="txt-oflo">{{ ftp['ip'] }}</td>
+                                    <td class="txt-oflo">{{ ftp['desc'] }}</td>
+                                    <td class="txt-oflo">{{ ftp['creation'] }}</td>
+                                    <td>
+                                        <a href="/honey/edit/{{ ftp['id'] }}" class="text-inverse p-r-10" data-toggle="tooltip" title="" data-original-title="Edit"><i class="ti-marker-alt"></i></a>
+                                        <a href="/honey/delete/{{ ftp['id'] }}" class="text-inverse" title="" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash" onclick="return confirm('Do you really want to delete this honeypot ?');"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                  </div>
+                  {% endif %}
+
+            <footer class="footer text-center"> 2017 &copy; Homer Honeypot </footer>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+{% endblock %}

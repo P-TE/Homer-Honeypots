@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Détails</h4> 
+            </div>
+        </div>
+
+
+        <!-- Active Directory -->     
+        <div class="col-sm-12 cache" id="Active Directory">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">{{ honey.honeytype }}</h3>
+                <p class="text-muted m-b-30 font-13">Ces valeurs ne sont que des indications, toutes modifications ne changera pas la configuration du Honeypot.</p>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form action="/honey/edit/{{ honey.id }}" method="post">
+                            <div class="form-group">
+                                <label for="ip">IP</label>
+                                <input class="form-control" name="ip" placeholder="IP sur lequel le Honeypot est installé" type="text" {% if honey.ip %} value="{{ honey.ip }}" {% endif %} > 
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Description</label>
+                                <textarea class="form-control" rows="5" name="desc">{% if honey.desc %}{{ honey.desc }}{% endif %}</textarea> 
+                            </div>
+                            <div class="form-group">
+                                <label for="creation">Date de création</label>
+                                <input class="form-control" name="creation" placeholder="date" type="text" disabled="disabled" {% if honey.creation %} value="{{ honey.creation }}" {% endif %} > 
+                            </div>
+                            <button type="submit" name="submit" value="syslog" class="btn btn-inverse waves-effect waves-light">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <!-- /.container-fluid -->
+    <footer class="footer text-center"> 2017 &copy; Homer Honeypot </footer>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
+
+
+
+
+
+

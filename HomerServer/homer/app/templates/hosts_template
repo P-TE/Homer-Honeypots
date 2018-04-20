@@ -1,0 +1,33 @@
+{% if ssh %}
+[honeyssh]
+{% set ipssh = ssh['ipSSH'].split(':') %}
+{{ ipssh[0] }}
+
+[honeyssh:vars]
+ansible_ssh_port={{ ipssh[1] }}
+ssh_hostname={{ ssh['hostnameSSH'] }}
+ssh_version={{ ssh['bannerSSH'] }}
+ssh_port={{ ssh['portSSH'] }}
+{% if ip and port %}
+syslog_server={{ ip }}
+port_syslog={{ port }}
+{% endif %}
+
+{% endif %}
+
+{% if ftp %}
+[honeyftp]
+{% set ipftp = ftp['ipFTP'].split(':') %}
+{{ ipftp[0] }}
+
+[honeyftp:vars]
+ansible_ssh_port={{ ipftp[1] }}
+ftp_username={{ ftp['userFTP'] }}
+ftp_password={{ ftp['passFTP'] }}
+{% if ip and port %}
+syslog_server={{ ip }}
+port_syslog={{ port }}
+{% endif %}
+
+{% endif %}
+
