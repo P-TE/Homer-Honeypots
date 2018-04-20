@@ -21,15 +21,15 @@ _Cette VM à pour but d'accueillir un Agent Honeypot (ssh ou ftp)_
 
 * Prérequis : 
  ```bash
- $apt install ansible openssh-server sudo
+ $ apt install ansible openssh-server sudo
  ```
 * Création d'un utilisateur ansible : 
  ```bash
- $adduser ansible
+ $ adduser ansible
  ```
 * Ajout de l'utilisateur ansible au sudoers sans password : 
 ```bash
-sudo visudo
+$ sudo visudo
 ``` 
 et ajouter à la fin : 
 ``` bash
