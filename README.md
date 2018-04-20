@@ -1,10 +1,10 @@
 #   Homer 
-<center><img src="docs/images/logo.png" width="200"></center>
+<div style="text-align:center"><img src="docs/images/logo.png" width="250"></div>
 
 
 Homer est un projet permettant le déploiement automatisé d'Honeypots, à travers une interface graphique.
 
-Les honeypots disponibles à ce jour sont : ![Logo_Homer](file:///C:/Users/JordanC/Documents/shared/docs/images/logo.png)
+Les honeypots disponibles à ce jour sont :
 * SSH
 * FTP 
 * Agent Windows
