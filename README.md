@@ -31,7 +31,7 @@ Cette VM à pour but d'accueillir un Agent Honeypot (ssh ou ftp)
 
 ## Déploiement d'un honeypot
 
-Retrouvez toutes les informations du déploiement sur le [wiki](https://github.com/P-TE/Homer-Honeypots/wiki/2.-D%C3%A9ploiement-d'un-honeypot)
+Retrouvez toutes les informations du déploiement sur le [wiki](https://github.com/P-TE/Homer-Honeypots/wiki/2.-D%C3%A9ploiement-d'un-honeypot).
 
 
 ## Architecture
@@ -42,11 +42,10 @@ Voici un exemple d'architecture d'un déploiement d'Homer :
 
 ## Auteurs
 
-Blablach [@blablachet]
-[@blablachet] https://twitter.com/blablachet
-<br>Zimmer [@RemiChambolle][@RemiChambolle] https://twitter.com/RemiChambolle
-<br>J.C [@jordancoude][@jordancoude] https://twitter.com/jordancoude
-<br>MaxiSam [@m_axiSam][@m_axiSam] https://twitter.com/m_axiSam
+Blablach [@blablachet](https://twitter.com/blablachet)
+<br>Zimmer [@RemiChambolle](https://twitter.com/RemiChambolle)
+<br>J.C [@jordancoude](https://twitter.com/jordancoude)
+<br>MaxiSam [@m_axiSam](https://twitter.com/m_axiSam)
 
 ## License
 
